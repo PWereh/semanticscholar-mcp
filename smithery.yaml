@@ -1,0 +1,51 @@
+name: semantic-scholar-mcp
+description: "Semantic Scholar MCP server — patched for ARES-10-COSTUDY pipeline. Supports authenticated access, full field coverage (DOIs, OA PDFs, influentialCitationCount), snippet search, and isInfluential filtering for citation chains."
+version: "2.0.0"
+transport: streamable-http
+runtime: python
+entrypoint: server.py
+port: 8000
+
+capabilities:
+  tools: true
+  resources: false
+  prompts: false
+
+environment:
+  HOST: "0.0.0.0"
+  PORT: "8000"
+  # Set your Semantic Scholar API key here for authenticated access.
+  # Without this key the server works but shares the public rate-limit pool.
+  # Get a free key at: https://www.semanticscholar.org/product/api
+  S2_API_KEY: "SVsbhZ2ZIF58wiCdfJajl9umjV2H6J2s6xmcTvS4"
+
+dependencies:
+  - requests
+  - mcp
+  - uvicorn
+  - httpx
+  - pydantic
+  - anyio
+  - fastmcp
+
+python:
+  version: "3.11"
+  requirements: requirements.txt
+
+health_check:
+  path: "/"
+  timeout: 30
+  interval: 30
+
+resources:
+  memory: 256
+  cpu: 0.5
+
+tags:
+  - academic
+  - research
+  - semantic-scholar
+  - costudy
+  - ares-pipeline
+  - citations
+  - peer-reviewed

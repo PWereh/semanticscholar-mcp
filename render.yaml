@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: semantic-scholar-mcp
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: S2_API_KEY
+        sync: false   # set manually in Render dashboard — never commit the key
+      - key: HOST
+        value: 0.0.0.0

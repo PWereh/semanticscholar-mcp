@@ -1,0 +1,6 @@
+requests
+mcp
+uvicorn
+httpx
+pydantic
+anyio
