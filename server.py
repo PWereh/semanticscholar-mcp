@@ -179,9 +179,13 @@ async def get_semantic_scholar_paper_recommendations_from_lists(
     )
 
 
+# Expose ASGI app at module level — uvicorn target: server:asgi_app
+asgi_app = app.streamable_http_app()
+
 if __name__ == "__main__":
+    import uvicorn
     port = int(os.getenv("PORT", 8000))
     host = os.getenv("HOST", "0.0.0.0")
     logger.info(f"Starting S2 MCP Server (ARES Edition) on {host}:{port}")
     logger.info(f"Auth: {'authenticated' if os.environ.get('S2_API_KEY') else 'unauthenticated'}")
-    app.run(transport="streamable-http")
+    uvicorn.run(asgi_app, host=host, port=port)

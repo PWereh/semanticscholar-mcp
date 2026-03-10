@@ -17,7 +17,7 @@ environment:
   # Set your Semantic Scholar API key here for authenticated access.
   # Without this key the server works but shares the public rate-limit pool.
   # Get a free key at: https://www.semanticscholar.org/product/api
-  S2_API_KEY: "SVsbhZ2ZIF58wiCdfJajl9umjV2H6J2s6xmcTvS4"
+  S2_API_KEY: ""
 
 dependencies:
   - requests
