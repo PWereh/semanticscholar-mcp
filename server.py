@@ -179,8 +179,24 @@ async def get_semantic_scholar_paper_recommendations_from_lists(
     )
 
 
+# ── HEALTH ROUTES ────────────────────────────────────────────────────────────
+# FastMCP mounts MCP protocol at /mcp only.
+# Inject / and /health so Railway/Render healthchecks get HTTP 200.
+from starlette.routing import Route as _Route
+from starlette.requests import Request as _Request
+from starlette.responses import JSONResponse as _JSONResponse
+
+async def _health(request: _Request) -> _JSONResponse:
+    return _JSONResponse({
+        "status": "ok",
+        "service": "semantic-scholar-mcp",
+        "auth": "authenticated" if os.environ.get("S2_API_KEY") else "unauthenticated"
+    })
+
 # Expose ASGI app at module level — uvicorn target: server:asgi_app
 asgi_app = app.streamable_http_app()
+asgi_app.routes.insert(0, _Route("/", _health))
+asgi_app.routes.insert(1, _Route("/health", _health))
 
 if __name__ == "__main__":
     import uvicorn
